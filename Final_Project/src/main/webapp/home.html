@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Home Page</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- From https://getbootstrap.com/ -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+        <!-- From https://angularjs.org/ -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
+        <script>
+            var pcApp = angular.module('pcApp', []);
+            pcApp.controller('postCtrl', function($scope, $http) {
+                var baseUrl = '/CSD4464-JAX-RS-2019W/api/post';
+                $scope.postList = [];
+                function getItems() {
+                    $http.get(baseUrl).then(
+                        function(posts){
+                            $scope.postsList = posts.data;
+                        },
+                        function(error){
+                            alert(error.message);
+                        });
+                }
+                getItems();
+                $scope.addItem = function() {
+                    newPost = {
+                        postId: $scope.newPostId,
+                        description: $scope.newDescription,
+                        postDate: $scope.newPostDate,
+                    }
+                    $http.post(baseUrl, newPost).then(
+                        function() {
+                            // Timeout needed because updates happen too fast
+                            setTimeout(getItems(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+                
+                $scope.editItem = function() {
+                    editPost = {
+                        postId: $scope.editPostId,
+                        description: $scope.editDescription,
+                        postDate: $scope.editPostDate,
+                    };
+                    $http.put(baseUrl + '/' + $scope.editPost, editPost).then(
+                        function() {
+                            setTimeout(getItems(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+                
+                $scope.delItem = function() {                    
+                    $http.delete(baseUrl + '/' + $scope.delPost).then(
+                        function() {
+                            setTimeout(getItems(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+            });
+        </script>
+    </head>
+    <body>
+        <div>TODO write content</div>
+    </body>
+</html>

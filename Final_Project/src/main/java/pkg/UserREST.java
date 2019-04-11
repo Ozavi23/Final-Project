@@ -26,7 +26,7 @@ import javax.ws.rs.Produces;
  *
  * @author c0710955
  */
-public class PostREST {
+public class UserREST {
     
     @PersistenceContext(unitName = "buildit13PU")
     private EntityManager em;
@@ -41,9 +41,9 @@ public class PostREST {
      */
     @GET
     @Produces({"application/json"})
-    public List<Post> getAll() {
-        List<Post> posts = em.createQuery("SELECT p FROM Post p").getResultList();
-        return posts;
+    public List<User> getAll() {
+        List<User> users = em.createQuery("SELECT u FROM Person u").getResultList();
+        return users;
     }
 
     /**
@@ -54,50 +54,49 @@ public class PostREST {
     @GET
     @Path("{id}")
     @Produces({"application/json"})
-    public List<Post> getOne(@PathParam("id") String id) {
+    public List<User> getOne(@PathParam("id") String id) {
         Query q = em.createNamedQuery("findOne");
         q.setParameter("id", id);
-        List<Post> posts = q.getResultList();
-        return posts;
+        List<User> users = q.getResultList();
+        return users;
     }
 
     /**
      * Saves an object received as a JSON payload.
-     * @param post 
+     * @param user 
      */
     @POST
     @Consumes("application/json")
-    public void addOne(Post post) {
+    public void addOne(User user) {
         try {
             transaction.begin();
-            em.persist(post);
+            em.persist(user);
             transaction.commit();
         } catch (Exception ex) {
-            Logger.getLogger(PostREST.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
      * Updates an existing Product Code based on an incoming JSON payload.
-     * @param post
+     * @param user
      * @param id 
      */
     @PUT
     @Path("{id}")
     @Consumes("application/json")
-    public void editOne(Post post, @PathParam("id") String id) {
+    public void editOne(User user, @PathParam("id") String id) {
         try {
-            Query q = em.createQuery("SELECT p FROM Post p WHERE p.postId = :id");
+            Query q = em.createQuery("SELECT u FROM Person u WHERE u.userId = :id");
             q.setParameter("id", id);
-            Post savedPC = (Post) q.getSingleResult();
-            savedPC.setTitle(post.getTitle());
-            savedPC.setDescription(post.getDescription());
-            savedPC.setPostDate(post.getPostDate());
+            User savedPC = (User) q.getSingleResult();
+            savedPC.setUsername(user.getUsername());
+            savedPC.setPassword(user.getPassword());
             transaction.begin();
             em.merge(savedPC);
             transaction.commit();
         } catch (Exception ex) {
-            Logger.getLogger(PostREST.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -110,11 +109,11 @@ public class PostREST {
     public void deleteOne(@PathParam("id") String id) {
         try {
             transaction.begin();
-            Post found = em.find(Post.class, id);
+            User found = em.find(User.class, id);
             em.remove(found);
             transaction.commit();
         } catch (Exception ex) {
-            Logger.getLogger(PostREST.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(UserREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
