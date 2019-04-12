@@ -5,6 +5,7 @@
  */
 package pkg;
 
+import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,7 +18,7 @@ import javax.persistence.Table;
  * @author c0710955
  */
 @NamedQueries(
-        @NamedQuery(name = "findOne", query = "SELECT p FROM Post p WHERE p.postId = :postId"))
+        @NamedQuery(name = "p.findOne", query = "SELECT p FROM Post p WHERE p.postId = :postId"))
 @Entity
 @Table(name = "POST")
 public class Post {
@@ -30,7 +31,7 @@ public class Post {
     @Column(name = "DESCRIPTION")
     private String description;
     @Column(name = "POST_DATE")
-    private String postDate;
+    private Timestamp postDate;
 
     public int getPostId() {
         return postId;
@@ -56,11 +57,11 @@ public class Post {
         this.description = description;
     }
 
-    public String getPostDate() {
+    public Timestamp getPostDate() {
         return postDate;
     }
 
-    public void setPostDate(String postDate) {
+    public void setPostDate(Timestamp postDate) {
         this.postDate = postDate;
     }
 }

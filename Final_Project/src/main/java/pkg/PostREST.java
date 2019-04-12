@@ -8,6 +8,7 @@ package pkg;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,18 +27,20 @@ import javax.ws.rs.Produces;
  *
  * @author c0710955
  */
+@Path("post")
+@ApplicationScoped
 public class PostREST {
     
-    @PersistenceContext(unitName = "buildit13PU")
+    @PersistenceContext(unitName = "com.mycompany_Final_Project_war_1.0-SNAPSHOTPU")
     private EntityManager em;
     
     @Inject
     private UserTransaction transaction;
 
-    // http://localhost:8080/CSD4464-JAX-RS-2019W/api/post
+    // http://localhost:8080/Final_Project/api/post
     /**
      * Uses a JPA Query to return the entire list as JSON.
-     * @return List of ProductCodes
+     * @return List of Posts
      */
     @GET
     @Produces({"application/json"})
@@ -55,7 +58,7 @@ public class PostREST {
     @Path("{id}")
     @Produces({"application/json"})
     public List<Post> getOne(@PathParam("id") String id) {
-        Query q = em.createNamedQuery("findOne");
+        Query q = em.createNamedQuery("p.findOne");
         q.setParameter("id", id);
         List<Post> posts = q.getResultList();
         return posts;
