@@ -17,8 +17,8 @@ and open the template in the editor.
         <!-- From https://angularjs.org/ -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
-            var pcBlog = angular.module('pcBlog', []);
-            pcBlog.controller('associateCtrl', function($scope, $http) {
+            var pcApp = angular.module('pcApp', []);
+            pcApp.controller('associateCtrl', function($scope, $http) {
                 var baseUrl = '/Final_Project/api/associate';
                 $scope.associateList = [];
                 function getAssociates() {
@@ -83,7 +83,7 @@ and open the template in the editor.
         <link href="CSS/background.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div ng-app="pcBlog">
+        <div ng-app="pcApp">
             <div ng-controller="associateCtrl">
                 <div class="jumbotron big-banner" style="height: 1000px; padding-top: 150px;">
                     <div class="container text-center">

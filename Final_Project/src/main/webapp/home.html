@@ -17,11 +17,11 @@ and open the template in the editor.
         <!-- From https://angularjs.org/ -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
-            var pcBlog = angular.module('pcBlog', []);
-            pcBlog.controller('postCtrl', function($scope, $http) {
+            var pcApp = angular.module('pcApp', []);
+            pcApp.controller('postCtrl', function($scope, $http) {
                 var baseUrl = '/Final_Project/api/post';
                 $scope.postList = [];
-                function getPosts() {
+                function getItems() {
                     $http.get(baseUrl).then(
                         function(posts){
                             $scope.postList = posts.data;
@@ -30,18 +30,18 @@ and open the template in the editor.
                             alert(error.message);
                         });
                 }
-                getPosts();
-                $scope.addPost = function() {
-                    newPostId = {
+                getItems();
+                $scope.addItem = function() {
+                    newPost = {
                         postId: $scope.newPostId,
                         title: $scope.newTitle,
                         description: $scope.newDescription,
                         postDate: $scope.newPostDate
                     };
-                    $http.post(baseUrl, newPostId).then(
+                    $http.post(baseUrl, newPost).then(
                         function() {
                             // Timeout needed because updates happen too fast
-                            setTimeout(getPosts(), 500);
+                            setTimeout(getItems(), 500);
                         },
                         function(error){
                             alert(error.message);
@@ -49,16 +49,16 @@ and open the template in the editor.
                     );
                 };
                 
-                $scope.editPost = function() {
-                    editPosts = {
+                $scope.editItem = function() {
+                    editPost = {
                         postId: $scope.editPostId,
                         title: $scope.editTitle,
                         description: $scope.editDescription,
                         postDate: $scope.editPostDate
                     };
-                    $http.put(baseUrl + '/' + $scope.editPostId, editPosts).then(
+                    $http.put(baseUrl + '/' + $scope.editPostId, editPost).then(
                         function() {
-                            setTimeout(getPosts(), 500);
+                            setTimeout(getItems(), 500);
                         },
                         function(error){
                             alert(error.message);
@@ -66,10 +66,10 @@ and open the template in the editor.
                     );
                 };
                 
-                $scope.delPost = function() {                    
-                    $http.delete(baseUrl + '/' + $scope.del).then(
+                $scope.delItem = function() {                    
+                    $http.delete(baseUrl + '/' + $scope.delPostId).then(
                         function() {
-                            setTimeout(getPosts(), 500);
+                            setTimeout(getItems(), 500);
                         },
                         function(error){
                             alert(error.message);
@@ -80,11 +80,65 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div ng-app="pcBlog">
-            <div ng-controller="postCtrl">
-                <div><button class="btn btn-success" ng-click="addPost()">Add</button></div>
-                <div><button class="btn btn-success" ng-click="editPost()">Edit</button></div>
-                <div><button class="btn btn-success" ng-click="delPost()">Delete</button></div>
+        <div ng-app="pcApp" class="container">
+            <div class="row" ng-controller="postCtrl">
+                <div class="col-md-6">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Post Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-table">
+                            <tr ng-repeat="posts in postList">
+                                <td>{{ posts.postId }}</td>
+                                <td>{{ posts.title }}</td>
+                                <td>{{ posts.description }}</td>
+                                <td>{{ posts.postDate }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h1>Add Post</h1>
+                    <div class="form-group">
+                        <label>Post ID <input class="form-control" ng-model="newPostId" /></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Title <input class="form-control" ng-model="newTitle" /></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Description <input class="form-control" ng-model="newDescription" /></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Post Date <input class="form-control" ng-model="newPostDate" /></label>
+                    </div>
+                    <button class="btn btn-success" ng-click="addItem()">Add</button>
+                    
+                    <h1>Edit Post</h1>
+                    <div class="form-group">
+                        <label>Post ID <input class="form-control" ng-model="editPostId" /></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Title <input class="form-control" ng-model="newTitle" /></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Description <input class="form-control" ng-model="newDescription" /></label>
+                    </div>
+                    <div class="form-group">
+                        <label>Post Date <input class="form-control" ng-model="newPostDate" /></label>
+                    </div>
+                    <button class="btn btn-warning" ng-click="editItem()">Edit</button>
+                    
+                    <h1>Delete Post</h1>
+                    <div class="form-group">
+                        <label>Post ID <input class="form-control" ng-model="editPostId" /></label>
+                    </div>
+                    <button class="btn btn-danger" ng-click="delItem()">Delete</button>
+                </div>
             </div>
         </div>    
     </body>
