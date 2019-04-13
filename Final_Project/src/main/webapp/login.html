@@ -17,7 +17,21 @@ and open the template in the editor.
         <!-- From https://angularjs.org/ -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
-            
+            var pcApp = angular.module('pcApp', []);
+            pcApp.controller('postCtrl', function($scope, $http) {
+                var baseUrl = '/Final_Project/api/person';
+                $scope.userList = [];
+                function getUsers() {
+                    $http.get(baseUrl).then(
+                        function(users){
+                            $scope.userList = users.data;
+                        },
+                        function(error){
+                            alert(error.message);
+                        });
+                }
+                getUsers();
+            });
         </script>
         <link href="CSS/background.css" rel="stylesheet" type="text/css"/>
     </head>
@@ -33,7 +47,8 @@ and open the template in the editor.
                         <label>Password <input class="form-control" ng-model="newPassword" /></label>
                     </div>
                     <button class="btn btn-success" ng-click="checkLogin()">Submit</button>
-                    <button class="btn btn-success" ng-click="newRegister()">Register</button>
+                    <!--<button class="btn btn-success" ng-click="newRegister()">Register</button>-->
+                    <button type= "button" class="btn btn-success"><a href="register.html">Register</a></button>
                 </div>
             </div>
         </div>

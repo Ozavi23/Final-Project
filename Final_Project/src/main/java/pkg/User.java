@@ -28,6 +28,10 @@ public class User {
     private String username;
     @Column(name = "PASSWORD")
     private String password;
+    @Column(name = "FNAME")
+    private String fName;
+    @Column(name = "LNAME")
+    private String lName;
 
     public int getUserId() {
         return userId;
@@ -51,5 +55,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getfName() {
+        return fName;
+    }
+
+    public void setfName(String fName) {
+        this.fName = fName;
+    }
+
+    public String getlName() {
+        return lName;
+    }
+
+    public void setlName(String lName) {
+        this.lName = lName;
     }
 }

@@ -37,7 +37,7 @@ public class UserREST {
     @Inject
     private UserTransaction transaction;
 
-    // http://localhost:8080/Final_Project/api/user
+    // http://localhost:8080/Final_Project/api/person
     /**
      * Uses a JPA Query to return the entire list as JSON.
      * @return List of Users
@@ -95,6 +95,8 @@ public class UserREST {
             User savedPC = (User) q.getSingleResult();
             savedPC.setUsername(user.getUsername());
             savedPC.setPassword(user.getPassword());
+            savedPC.setfName(user.getfName());
+            savedPC.setlName(user.getlName());
             transaction.begin();
             em.merge(savedPC);
             transaction.commit();
