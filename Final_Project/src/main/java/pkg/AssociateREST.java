@@ -36,7 +36,7 @@ public class AssociateREST {
     @Inject
     private UserTransaction transaction;
 
-    // http://localhost:8080/Final_Project/api/associate
+    //http://localhost:8080/Final_Project/api/associate
     /**
      * Uses a JPA Query to return the entire list as JSON.
      * @return List of Users

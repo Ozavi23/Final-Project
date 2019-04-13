@@ -17,8 +17,8 @@ and open the template in the editor.
         <!-- From https://angularjs.org/ -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
-            var pcBlog = angular.module('pcBlog', []);
-            pcBlog.controller('associateCtrl', function($scope, $http) {
+            var pcApp = angular.module('pcApp', []);
+            pcApp.controller('associateCtrl', function($scope, $http) {
                 var baseUrl = '/Final_Project/api/associate';
                 $scope.associateList = [];
                 function getAssociates() {
@@ -32,14 +32,14 @@ and open the template in the editor.
                 }
                 getAssociates();
                 $scope.addAssociate = function() {
-                    newAssociateId = {
+                    newAssociate = {
                         associateId: $scope.newAssociateId,
                         username: $scope.newUsername,
                         password: $scope.newPassword,
                         fName: $scope.newFName,
                         lName: $scope.newLName
                     };
-                    $http.post(baseUrl, newAssociateId).then(
+                    $http.post(baseUrl, newAssociate).then(
                         function() {
                             // Timeout needed because updates happen too fast
                             setTimeout(getAssociates(), 500);
@@ -51,14 +51,14 @@ and open the template in the editor.
                 };
                 
                 $scope.editAssociate = function() {
-                    editAssociate = {
-                        associateId: $scope.newAssociateId,
-                        username: $scope.newUsername,
-                        password: $scope.newPassword,
-                        fName: $scope.newFName,
-                        lName: $scope.newLName
+                    editAssociates = {
+                        associateId: $scope.editAssociateId,
+                        username: $scope.editUsername,
+                        password: $scope.editPassword,
+                        fName: $scope.editFName,
+                        lName: $scope.editLName
                     };
-                    $http.put(baseUrl + '/' + $scope.editAssociateId, editAssociateId).then(
+                    $http.put(baseUrl + '/' + $scope.editAssociateId, editAssociates).then(
                         function() {
                             setTimeout(getAssociates(), 500);
                         },
@@ -83,14 +83,14 @@ and open the template in the editor.
         <link href="CSS/background.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div ng-app="pcBlog">
+        <div ng-app="pcApp">
             <div ng-controller="associateCtrl">
                 <div class="jumbotron big-banner" style="height: 1000px; padding-top: 150px;">
                     <div class="container text-center">
                         <h1>Create A New Account</h1>
-                        <!-- <div class="form-group">
-                            <label>Email <input class="form-control" ng-model="newEmail" /></label>
-                        </div>-->
+                        <div class="form-group">
+                            <label>User ID <input class="form-control" ng-model="newId" /></label>
+                        </div>
                         <div class="form-group">
                             <label>Username <input class="form-control" ng-model="newUsername" /></label>
                         </div>

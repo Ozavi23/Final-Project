@@ -20,7 +20,7 @@ public class ApplicationConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> result = new HashSet<>();
         result.add(AssociateREST.class);
-        result.add(PostREST.class);
+        //result.add(PostREST.class);
         return result;
     }
 }

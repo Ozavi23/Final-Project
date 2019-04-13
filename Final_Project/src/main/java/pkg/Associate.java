@@ -8,16 +8,16 @@ package pkg;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+//import javax.persistence.NamedQueries;
+//import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
  *
  * @author c0710955
  */
-@NamedQueries(
-        @NamedQuery(name = "a.findOne", query = "SELECT a FROM Post a WHERE a.associateId = :associateId"))
+//@NamedQueries(
+//        @NamedQuery(name = "a.findOne", query = "SELECT a FROM Associate a WHERE a.associateId = :associateId"))
 @Entity
 @Table(name = "ASSOCIATE")
 public class Associate {
