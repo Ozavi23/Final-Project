@@ -12,3 +12,7 @@ and open the template in the editor.
     background-image: url('../images/dan-burton-1158123-unsplash.jpg');
     background-size: 100%;
 }
+
+h1 {
+    font-size: 1000%;
+}
