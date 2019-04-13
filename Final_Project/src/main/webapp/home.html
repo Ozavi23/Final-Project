@@ -17,8 +17,8 @@ and open the template in the editor.
         <!-- From https://angularjs.org/ -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
-            var pcApp = angular.module('pcApp', []);
-            pcApp.controller('postCtrl', function($scope, $http) {
+            var pcBlog = angular.module('pcBlog', []);
+            pcBlog.controller('postCtrl', function($scope, $http) {
                 var baseUrl = '/Final_Project/api/post';
                 $scope.postList = [];
                 function getPosts() {
@@ -50,13 +50,13 @@ and open the template in the editor.
                 };
                 
                 $scope.editPost = function() {
-                    editPost = {
+                    editPosts = {
                         postId: $scope.editPostId,
-                        title: $scope.newTitle,
-                        description: $scope.newDescription,
-                        postDate: $scope.newPostDate
+                        title: $scope.editTitle,
+                        description: $scope.editDescription,
+                        postDate: $scope.editPostDate
                     };
-                    $http.put(baseUrl + '/' + $scope.editPostId, editPostId).then(
+                    $http.put(baseUrl + '/' + $scope.editPostId, editPosts).then(
                         function() {
                             setTimeout(getPosts(), 500);
                         },
@@ -69,7 +69,7 @@ and open the template in the editor.
                 $scope.delPost = function() {                    
                     $http.delete(baseUrl + '/' + $scope.del).then(
                         function() {
-                            setTimeout(getItems(), 500);
+                            setTimeout(getPosts(), 500);
                         },
                         function(error){
                             alert(error.message);
@@ -80,6 +80,12 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <div><button class="btn btn-success" ng-click="addPost()">Add</button></div>
+        <div ng-app="pcBlog">
+            <div ng-controller="postCtrl">
+                <div><button class="btn btn-success" ng-click="addPost()">Add</button></div>
+                <div><button class="btn btn-success" ng-click="editPost()">Edit</button></div>
+                <div><button class="btn btn-success" ng-click="delPost()">Delete</button></div>
+            </div>
+        </div>    
     </body>
 </html>
