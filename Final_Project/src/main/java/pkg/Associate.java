@@ -7,6 +7,7 @@ package pkg;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 //import javax.persistence.NamedQueries;
 //import javax.persistence.NamedQuery;
@@ -23,6 +24,7 @@ import javax.persistence.Table;
 public class Associate {
     @Id
     @Column(name = "ASSOCIATE_ID")
+    @GeneratedValue
     private int associateId;
     @Column(name = "USERNAME")
     private String username;
