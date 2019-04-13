@@ -18,21 +18,60 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
             var pcBlog = angular.module('pcBlog', []);
-            pcBlog.controller('userCtrl', function($scope, $http) {
-                var baseUrl = '/Final_Project/api/person';
-                $scope.userList = [];
-                $scope.addUser = function() {
-                    newUserId = {
-                        userId: $scope.newUserId,
+            pcBlog.controller('associateCtrl', function($scope, $http) {
+                var baseUrl = '/Final_Project/api/associate';
+                $scope.associateList = [];
+                function getAssociates() {
+                    $http.get(baseUrl).then(
+                        function(associates){
+                            $scope.associateList = associates.data;
+                        },
+                        function(error){
+                            alert(error.message);
+                        });
+                }
+                getAssociates();
+                $scope.addAssociate = function() {
+                    newAssociateId = {
+                        associateId: $scope.newAssociateId,
                         username: $scope.newUsername,
                         password: $scope.newPassword,
                         fName: $scope.newFName,
                         lName: $scope.newLName
                     };
-                    $http.post(baseUrl, newUserId).then(
+                    $http.post(baseUrl, newAssociateId).then(
                         function() {
                             // Timeout needed because updates happen too fast
-                            setTimeout(getUsers(), 500);
+                            setTimeout(getAssociates(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+                
+                $scope.editAssociate = function() {
+                    editAssociate = {
+                        associateId: $scope.newAssociateId,
+                        username: $scope.newUsername,
+                        password: $scope.newPassword,
+                        fName: $scope.newFName,
+                        lName: $scope.newLName
+                    };
+                    $http.put(baseUrl + '/' + $scope.editAssociateId, editAssociateId).then(
+                        function() {
+                            setTimeout(getAssociates(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+                
+                $scope.delAssociate = function() {                    
+                    $http.delete(baseUrl + '/' + $scope.del).then(
+                        function() {
+                            setTimeout(getAssociates(), 500);
                         },
                         function(error){
                             alert(error.message);
@@ -45,7 +84,7 @@ and open the template in the editor.
     </head>
     <body>
         <div ng-app="pcBlog">
-            <div ng-controller="userCtrl">
+            <div ng-controller="associateCtrl">
                 <div class="jumbotron big-banner" style="height: 1000px; padding-top: 150px;">
                     <div class="container text-center">
                         <h1>Create A New Account</h1>
@@ -64,7 +103,7 @@ and open the template in the editor.
                         <div class="form-group">
                             <label>Last Name <input class="form-control" ng-model="newLastName" /></label>
                         </div>
-                        <button type= "button" class="btn btn-light"><a href="thankYou.html">Submit</a></button>          
+                        <button class="btn btn-success" ng-click="addAssociate()">Submit</button>
                     </div>
                 </div>
             </div>

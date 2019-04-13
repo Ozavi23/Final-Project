@@ -17,13 +17,13 @@ import javax.persistence.Table;
  * @author c0710955
  */
 @NamedQueries(
-        @NamedQuery(name = "u.findOne", query = "SELECT u FROM User u WHERE u.userId = :userId"))
+        @NamedQuery(name = "a.findOne", query = "SELECT a FROM Post a WHERE a.associateId = :associateId"))
 @Entity
-@Table(name = "PERSON")
-public class User {
+@Table(name = "ASSOCIATE")
+public class Associate {
     @Id
-    @Column(name = "USER_ID")
-    private int userId;
+    @Column(name = "ASSOCIATE_ID")
+    private int associateId;
     @Column(name = "USERNAME")
     private String username;
     @Column(name = "PASSWORD")
@@ -33,12 +33,12 @@ public class User {
     @Column(name = "LNAME")
     private String lName;
 
-    public int getUserId() {
-        return userId;
+    public int getAssociateId() {
+        return associateId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAssociateId(int associateId) {
+        this.associateId = associateId;
     }
 
     public String getUsername() {

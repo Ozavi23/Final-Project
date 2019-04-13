@@ -17,39 +17,89 @@ and open the template in the editor.
         <!-- From https://angularjs.org/ -->
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.7/angular.min.js"></script>
         <script>
-            var pcApp = angular.module('pcApp', []);
-            pcApp.controller('postCtrl', function($scope, $http) {
-                var baseUrl = '/Final_Project/api/person';
-                $scope.userList = [];
-                function getUsers() {
+            var pcBlog = angular.module('pcBlog', []);
+            pcBlog.controller('associateCtrl', function($scope, $http) {
+                var baseUrl = '/Final_Project/api/associate';
+                $scope.associateList = [];
+                function getAssociates() {
                     $http.get(baseUrl).then(
-                        function(users){
-                            $scope.userList = users.data;
+                        function(associates){
+                            $scope.associateList = associates.data;
                         },
                         function(error){
                             alert(error.message);
                         });
                 }
-                getUsers();
+                getAssociates();
+                $scope.addAssociate = function() {
+                    newAssociateId = {
+                        associateId: $scope.newAssociateId,
+                        username: $scope.newUsername,
+                        password: $scope.newPassword,
+                        fName: $scope.newFName,
+                        lName: $scope.newLName
+                    };
+                    $http.post(baseUrl, newAssociateId).then(
+                        function() {
+                            // Timeout needed because updates happen too fast
+                            setTimeout(getAssociates(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+                
+                $scope.editAssociate = function() {
+                    editAssociate = {
+                        associateId: $scope.newAssociateId,
+                        username: $scope.newUsername,
+                        password: $scope.newPassword,
+                        fName: $scope.newFName,
+                        lName: $scope.newLName
+                    };
+                    $http.put(baseUrl + '/' + $scope.editAssociateId, editAssociateId).then(
+                        function() {
+                            setTimeout(getAssociates(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
+                
+                $scope.delAssociate = function() {                    
+                    $http.delete(baseUrl + '/' + $scope.del).then(
+                        function() {
+                            setTimeout(getAssociates(), 500);
+                        },
+                        function(error){
+                            alert(error.message);
+                        }
+                    );
+                };
             });
         </script>
         <link href="CSS/background.css" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <div class="jumbotron big-banner" style="height: 1000px; padding-top: 150px;">
-            <div class="container text-center">
-                <div class="col">
-                    <h1>Login</h1>
-                    <div class="form-group">
-                        <label>Username <input class="form-control" ng-model="newUserame" /></label>
+        <div ng-app="pcBlog">
+            <div ng-controller="associateCtrl">
+                <div class="jumbotron big-banner" style="height: 1000px; padding-top: 150px;">
+                    <div class="container text-center">
+                        <div class="col">
+                            <h1>Login</h1>
+                            <div class="form-group">
+                            <label>Username <input class="form-control" ng-model="newUsername" /></label>
+                            </div>
+                            <div class="form-group">
+                            <label>Password <input class="form-control" ng-model="newPassword" /></label>
+                            </div>
+                            <button class="btn btn-success" ng-click="addMember()">Submit</button>
+                            <!--<button class="btn btn-success" ng-click="newRegister()">Register</button>-->
+                            <button type= "button" class="btn btn-success"><a href="register.html">Register</a></button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Password <input class="form-control" ng-model="newPassword" /></label>
-                    </div>
-                    <button type= "button" class="btn btn-light"><a href="home.html">Submit</a></button>
-                    
-                    <!--<button class="btn btn-success" ng-click="newRegister()">Register</button>-->
-                    <button type= "button" class="btn btn-light"><a href="register.html">Register</a></button>
                 </div>
             </div>
         </div>

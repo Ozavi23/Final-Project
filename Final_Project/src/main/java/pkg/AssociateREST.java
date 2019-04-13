@@ -27,81 +27,80 @@ import javax.ws.rs.Produces;
  *
  * @author c0710955
  */
-@Path("person")
+@Path("associate")
 @ApplicationScoped
-public class UserREST {
-    
+public class AssociateREST {
     @PersistenceContext(unitName = "com.mycompany_Final_Project_war_1.0-SNAPSHOTPU")
     private EntityManager em;
     
     @Inject
     private UserTransaction transaction;
 
-    // http://localhost:8080/Final_Project/api/person
+    // http://localhost:8080/Final_Project/api/associate
     /**
      * Uses a JPA Query to return the entire list as JSON.
      * @return List of Users
      */
     @GET
     @Produces({"application/json"})
-    public List<User> getAll() {
-        List<User> users = em.createQuery("SELECT u FROM Person u").getResultList();
-        return users;
+    public List<Associate> getAll() {
+        List<Associate> associates = em.createQuery("SELECT a FROM Associate a").getResultList();
+        return associates;
     }
 
     /**
      * Uses a JPA Named Query to return a specific entity as a list.
-     * @param id the Product Code (ID)
+     * @param id the Associate Id (ID)
      * @return 
      */
     @GET
     @Path("{id}")
     @Produces({"application/json"})
-    public List<User> getOne(@PathParam("id") String id) {
-        Query q = em.createNamedQuery("u.findOne");
-        q.setParameter("id", id);
-        List<User> users = q.getResultList();
-        return users;
+    public List<Associate> getOne(@PathParam("id") String id) {
+        Query q = em.createNamedQuery("a.findOne");
+        q.setParameter("associateId", id);
+        List<Associate> associates = q.getResultList();
+        return associates;
     }
 
     /**
      * Saves an object received as a JSON payload.
-     * @param user 
+     * @param associate 
      */
     @POST
     @Consumes("application/json")
-    public void addOne(User user) {
+    public void addOne(Associate associate) {
         try {
             transaction.begin();
-            em.persist(user);
+            em.persist(associate);
             transaction.commit();
         } catch (Exception ex) {
-            Logger.getLogger(UserREST.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssociateREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     /**
      * Updates an existing Product Code based on an incoming JSON payload.
-     * @param user
+     * @param associate
      * @param id 
      */
     @PUT
     @Path("{id}")
     @Consumes("application/json")
-    public void editOne(User user, @PathParam("id") String id) {
+    public void editOne(Associate associate, @PathParam("id") String id) {
         try {
-            Query q = em.createQuery("SELECT u FROM Person u WHERE u.userId = :id");
+            Query q = em.createQuery("SELECT a FROM Associate a WHERE a.associateId = :id");
             q.setParameter("id", id);
-            User savedPC = (User) q.getSingleResult();
-            savedPC.setUsername(user.getUsername());
-            savedPC.setPassword(user.getPassword());
-            savedPC.setfName(user.getfName());
-            savedPC.setlName(user.getlName());
+            Associate savedPC = (Associate) q.getSingleResult();
+            savedPC.setUsername(associate.getUsername());
+            savedPC.setPassword(associate.getPassword());
+            savedPC.setfName(associate.getfName());
+            savedPC.setlName(associate.getlName());
             transaction.begin();
             em.merge(savedPC);
             transaction.commit();
         } catch (Exception ex) {
-            Logger.getLogger(UserREST.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssociateREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,11 +113,11 @@ public class UserREST {
     public void deleteOne(@PathParam("id") String id) {
         try {
             transaction.begin();
-            User found = em.find(User.class, id);
+            Associate found = em.find(Associate.class, id);
             em.remove(found);
             transaction.commit();
         } catch (Exception ex) {
-            Logger.getLogger(UserREST.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AssociateREST.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
