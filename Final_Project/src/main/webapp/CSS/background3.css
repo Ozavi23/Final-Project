@@ -1,0 +1,16 @@
+/*
+CSS for the thank you page - K.O
+*/
+/* 
+    Created on : Apr 12, 2019, 10:59:40 PM
+    Author     : c0710986
+*/
+
+.big-banner{
+    background-image: url('../images/wade-austin-ellis-1232401-unsplash.jpg');
+    background-size: 100%;
+}
+
+h1 {
+    font-size: 1000%;
+}
